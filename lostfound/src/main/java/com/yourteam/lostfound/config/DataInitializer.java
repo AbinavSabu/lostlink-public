@@ -2,6 +2,7 @@ package com.yourteam.lostfound.config;
 
 import com.yourteam.lostfound.model.Claim;
 import com.yourteam.lostfound.model.FoundItem;
+import com.yourteam.lostfound.model.Item;
 import com.yourteam.lostfound.model.LostItem;
 import com.yourteam.lostfound.model.User;
 import com.yourteam.lostfound.repository.ClaimRepository;
@@ -79,7 +80,19 @@ public class DataInitializer implements CommandLineRunner {
             return userRepository.save(u);
         });
 
-        // Only seed demonstration catalog if database has zero items
+        // 1. If database already has items with legacy relative /uploads/ paths, migrate them idempotently
+        List<Item> legacyItems = itemRepository.findByImageUrlStartingWith("/uploads/");
+        if (!legacyItems.isEmpty()) {
+            log.info("Found {} legacy items with relative '/uploads/' URLs. Migrating to public CDN URLs...", legacyItems.size());
+            for (Item item : legacyItems) {
+                String newUrl = mapLegacyUploadToPublicUrl(item.getImageUrl(), item.getTitle());
+                if (newUrl != null && !newUrl.equals(item.getImageUrl())) {
+                    itemRepository.updateImageUrl(item.getId(), newUrl);
+                }
+            }
+        }
+
+        // 2. Only seed demonstration catalog if database has zero items
         if (itemRepository.count() == 0) {
             log.info("Database has 0 items. Seeding complete 12-item curated demonstration catalog...");
 
@@ -93,7 +106,7 @@ public class DataInitializer implements CommandLineRunner {
                     "LOST",
                     "$50 Reward"
             );
-            item1.setImageUrl("/uploads/d1b7a240-6f81-423c-91d1-61019a6d8001.jpg");
+            item1.setImageUrl("https://images.unsplash.com/photo-1695048133142-1a20484d2569?auto=format&fit=crop&w=1200&q=80");
             item1.setLatitude(37.7749);
             item1.setLongitude(-122.4194);
             item1.setVerificationQuestion("What is the lock screen wallpaper picture?");
@@ -110,7 +123,7 @@ public class DataInitializer implements CommandLineRunner {
                     "Shelf 4B",
                     "Claim at Central Desk with matching serial number"
             );
-            item2.setImageUrl("/uploads/d1b7a240-6f81-423c-91d1-61019a6d8002.jpg");
+            item2.setImageUrl("https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=1200&q=80");
             item2.setLatitude(37.7752);
             item2.setLongitude(-122.4189);
             item2.setCustodyDesk("Library Central Circulation Desk");
@@ -129,7 +142,7 @@ public class DataInitializer implements CommandLineRunner {
                     "Safe 1",
                     "Verify ID at Welcome Desk"
             );
-            item3.setImageUrl("/uploads/d1b7a240-6f81-423c-91d1-61019a6d8003.jpg");
+            item3.setImageUrl("https://images.unsplash.com/photo-1627123424574-724758594e93?auto=format&fit=crop&w=1200&q=80");
             item3.setLatitude(37.7740);
             item3.setLongitude(-122.4201);
             item3.setCustodyDesk("Sports Complex Welcome Desk");
@@ -147,7 +160,7 @@ public class DataInitializer implements CommandLineRunner {
                     "LOST",
                     "$30 Reward"
             );
-            item4.setImageUrl("/uploads/d1b7a240-6f81-423c-91d1-61019a6d8004.jpg");
+            item4.setImageUrl("https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=1200&q=80");
             item4.setLatitude(37.7758);
             item4.setLongitude(-122.4175);
             item4.setVerificationQuestion("What textbook title was inside the main zipper pocket?");
@@ -164,7 +177,7 @@ public class DataInitializer implements CommandLineRunner {
                     "Key Lockbox 2",
                     "Claim at Security Gate 1 with ID"
             );
-            item5.setImageUrl("/uploads/d1b7a240-6f81-423c-91d1-61019a6d8005.jpg");
+            item5.setImageUrl("https://images.unsplash.com/photo-1582139329536-e7284fece509?auto=format&fit=crop&w=1200&q=80");
             item5.setLatitude(37.7761);
             item5.setLongitude(-122.4178);
             item5.setCustodyDesk("Campus Security Office (Gate 1)");
@@ -183,7 +196,7 @@ public class DataInitializer implements CommandLineRunner {
                     "Locker 3",
                     "Pair to your phone at front desk"
             );
-            item6.setImageUrl("/uploads/d1b7a240-6f81-423c-91d1-61019a6d8006.jpg");
+            item6.setImageUrl("https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?auto=format&fit=crop&w=1200&q=80");
             item6.setLatitude(37.7738);
             item6.setLongitude(-122.4190);
             item6.setCustodyDesk("Recreation Center Front Desk");
@@ -202,7 +215,7 @@ public class DataInitializer implements CommandLineRunner {
                     "Locker A",
                     "Turn in at Info Booth"
             );
-            item7.setImageUrl("/uploads/d1b7a240-6f81-423c-91d1-61019a6d8007.jpg");
+            item7.setImageUrl("https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=1200&q=80");
             item7.setLatitude(37.7745);
             item7.setLongitude(-122.4182);
             item7.setCustodyDesk("Dining Hall Info Booth");
@@ -220,7 +233,7 @@ public class DataInitializer implements CommandLineRunner {
                     "LOST",
                     "$15 Reward"
             );
-            item8.setImageUrl("/uploads/d1b7a240-6f81-423c-91d1-61019a6d8008.jpg");
+            item8.setImageUrl("https://images.unsplash.com/photo-1602143407151-7111542de6e8?auto=format&fit=crop&w=1200&q=80");
             item8.setLatitude(37.7750);
             item8.setLongitude(-122.4168);
             item8.setVerificationQuestion("Name two stickers placed beneath the logo?");
@@ -237,7 +250,7 @@ public class DataInitializer implements CommandLineRunner {
                     "Cabinet 2",
                     "Claim at Math Dept office with student ID"
             );
-            item9.setImageUrl("/uploads/d1b7a240-6f81-423c-91d1-61019a6d8009.jpg");
+            item9.setImageUrl("https://images.unsplash.com/photo-1594980596870-8aa52a78d8cd?auto=format&fit=crop&w=1200&q=80");
             item9.setLatitude(37.7765);
             item9.setLongitude(-122.4185);
             item9.setCustodyDesk("Math Department Office (Room 101)");
@@ -256,7 +269,7 @@ public class DataInitializer implements CommandLineRunner {
                     "Drawer 1",
                     "Claim with another photo ID"
             );
-            item10.setImageUrl("/uploads/d1b7a240-6f81-423c-91d1-61019a6d8010.jpg");
+            item10.setImageUrl("https://images.unsplash.com/photo-1589330694653-ded6df03f754?auto=format&fit=crop&w=1200&q=80");
             item10.setLatitude(37.7755);
             item10.setLongitude(-122.4170);
             item10.setCustodyDesk("Engineering Student Helpdesk");
@@ -274,7 +287,7 @@ public class DataInitializer implements CommandLineRunner {
                     "LOST",
                     "$10 Reward"
             );
-            item11.setImageUrl("/uploads/d1b7a240-6f81-423c-91d1-61019a6d8011.jpg");
+            item11.setImageUrl("https://images.unsplash.com/photo-1534353436294-0dbd4bdac845?auto=format&fit=crop&w=1200&q=80");
             item11.setLatitude(37.7742);
             item11.setLongitude(-122.4179);
             item11.setVerificationQuestion("What brand initials are engraved on the wooden handle base?");
@@ -291,7 +304,7 @@ public class DataInitializer implements CommandLineRunner {
                     "Bike Shed A",
                     "Show lock key or purchase receipt"
             );
-            item12.setImageUrl("/uploads/d1b7a240-6f81-423c-91d1-61019a6d8012.jpg");
+            item12.setImageUrl("https://images.unsplash.com/photo-1485965120184-e220f721d03e?auto=format&fit=crop&w=1200&q=80");
             item12.setLatitude(37.7748);
             item12.setLongitude(-122.4210);
             item12.setCustodyDesk("Campus Police & Parking Office");
@@ -336,5 +349,41 @@ public class DataInitializer implements CommandLineRunner {
 
             log.info("Successfully seeded 12 catalog items and 4 demo claims.");
         }
+    }
+
+    /**
+     * Map legacy local relative paths (/uploads/xxx.jpg) to public high-resolution CDN images.
+     */
+    private String mapLegacyUploadToPublicUrl(String legacyPath, String title) {
+        if (legacyPath == null) return null;
+        String t = title != null ? title.toLowerCase() : "";
+
+        if (t.contains("iphone") || legacyPath.contains("8001")) {
+            return "https://images.unsplash.com/photo-1695048133142-1a20484d2569?auto=format&fit=crop&w=1200&q=80";
+        } else if (t.contains("macbook") || legacyPath.contains("8002")) {
+            return "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=1200&q=80";
+        } else if (t.contains("wallet") || legacyPath.contains("8003")) {
+            return "https://images.unsplash.com/photo-1627123424574-724758594e93?auto=format&fit=crop&w=1200&q=80";
+        } else if (t.contains("backpack") || legacyPath.contains("8004")) {
+            return "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=1200&q=80";
+        } else if (t.contains("key") || legacyPath.contains("8005")) {
+            return "https://images.unsplash.com/photo-1582139329536-e7284fece509?auto=format&fit=crop&w=1200&q=80";
+        } else if (t.contains("watch") || legacyPath.contains("8006")) {
+            return "https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?auto=format&fit=crop&w=1200&q=80";
+        } else if (t.contains("headphone") || legacyPath.contains("8007")) {
+            return "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=1200&q=80";
+        } else if (t.contains("flask") || t.contains("bottle") || legacyPath.contains("8008")) {
+            return "https://images.unsplash.com/photo-1602143407151-7111542de6e8?auto=format&fit=crop&w=1200&q=80";
+        } else if (t.contains("calculator") || legacyPath.contains("8009")) {
+            return "https://images.unsplash.com/photo-1594980596870-8aa52a78d8cd?auto=format&fit=crop&w=1200&q=80";
+        } else if (t.contains("card") || legacyPath.contains("8010")) {
+            return "https://images.unsplash.com/photo-1589330694653-ded6df03f754?auto=format&fit=crop&w=1200&q=80";
+        } else if (t.contains("umbrella") || legacyPath.contains("8011")) {
+            return "https://images.unsplash.com/photo-1534353436294-0dbd4bdac845?auto=format&fit=crop&w=1200&q=80";
+        } else if (t.contains("bike") || t.contains("bicycle") || legacyPath.contains("8012")) {
+            return "https://images.unsplash.com/photo-1485965120184-e220f721d03e?auto=format&fit=crop&w=1200&q=80";
+        }
+
+        return "https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?auto=format&fit=crop&w=1200&q=80";
     }
 }

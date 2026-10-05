@@ -30,6 +30,13 @@ public interface ItemRepository extends JpaRepository<Item, Long>, JpaSpecificat
     @Query("SELECT COUNT(i) FROM Item i WHERE UPPER(i.status) = UPPER(:status)")
     long countByStatusIgnoreCase(@Param("status") String status);
 
+    List<Item> findByImageUrlStartingWith(String prefix);
+
+    @Modifying
+    @Transactional
+    @Query("UPDATE Item i SET i.imageUrl = :newUrl WHERE i.id = :id")
+    void updateImageUrl(@Param("id") Long id, @Param("newUrl") String newUrl);
+
     @Query("SELECT i FROM Item i WHERE " +
             "i.id <> :itemId AND " +
             "(UPPER(i.status) = UPPER(:targetStatus) OR " +
