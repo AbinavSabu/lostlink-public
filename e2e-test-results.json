@@ -1,0 +1,632 @@
+[
+  {
+    "category": "Environment",
+    "testName": "Backend Running on Port 8081",
+    "status": "PASS",
+    "details": {
+      "status": 200
+    }
+  },
+  {
+    "category": "Environment",
+    "testName": "Frontend Running on Port 5173",
+    "status": "PASS",
+    "details": {
+      "status": 200
+    }
+  },
+  {
+    "category": "Environment",
+    "testName": "WebSocket SockJS Endpoint Active",
+    "status": "PASS",
+    "details": {
+      "status": 200
+    }
+  },
+  {
+    "category": "Environment",
+    "testName": "Embedded H2 Console Accessible",
+    "status": "PASS",
+    "details": {
+      "status": 200
+    }
+  },
+  {
+    "category": "Auth",
+    "testName": "Student Registration (User A)",
+    "status": "PASS",
+    "details": {
+      "id": 360,
+      "email": "alice_p15gz@campus.edu",
+      "role": "ROLE_USER"
+    }
+  },
+  {
+    "category": "Auth",
+    "testName": "Duplicate Email Registration Rejection",
+    "status": "PASS",
+    "details": {
+      "status": 400
+    }
+  },
+  {
+    "category": "Auth",
+    "testName": "Student Login with Valid Credentials",
+    "status": "PASS",
+    "details": {
+      "status": 200
+    }
+  },
+  {
+    "category": "Auth",
+    "testName": "Login Rejection with Wrong Password",
+    "status": "PASS",
+    "details": {
+      "status": 400
+    }
+  },
+  {
+    "category": "Auth",
+    "testName": "Login Rejection with Nonexistent Account",
+    "status": "PASS",
+    "details": {
+      "status": 400
+    }
+  },
+  {
+    "category": "Auth",
+    "testName": "Protected Route Rejects Unauthenticated Request",
+    "status": "PASS",
+    "details": {
+      "status": 401
+    }
+  },
+  {
+    "category": "Auth",
+    "testName": "Admin Login Successful",
+    "status": "PASS",
+    "details": {
+      "role": "ROLE_ADMIN",
+      "id": 68
+    }
+  },
+  {
+    "category": "Auth",
+    "testName": "Student Forbidden from Accessing /api/admin/stats",
+    "status": "PASS",
+    "details": {
+      "status": 403
+    }
+  },
+  {
+    "category": "Auth",
+    "testName": "Admin Access to /api/admin/stats Allowed",
+    "status": "PASS",
+    "details": {
+      "stats": {
+        "totalItems": 12,
+        "lostItems": 4,
+        "foundItems": 8,
+        "claimedItems": 2,
+        "totalClaims": 4,
+        "pendingClaims": 0,
+        "approvedClaims": 4,
+        "totalUsers": 81
+      }
+    }
+  },
+  {
+    "category": "Profile",
+    "testName": "View Current User Profile",
+    "status": "PASS",
+    "details": {
+      "role": "ROLE_USER",
+      "id": 360,
+      "name": "Alice Student",
+      "phoneNumber": "",
+      "email": "alice_p15gz@campus.edu"
+    }
+  },
+  {
+    "category": "Profile",
+    "testName": "Update Profile Name and Phone",
+    "status": "PASS",
+    "details": {
+      "role": "ROLE_USER",
+      "id": 360,
+      "name": "Alice Updated",
+      "phoneNumber": "+1-555-0199",
+      "email": "alice_p15gz@campus.edu"
+    }
+  },
+  {
+    "category": "Profile",
+    "testName": "Profile Update Persists on Reload",
+    "status": "PASS",
+    "details": {
+      "role": "ROLE_USER",
+      "id": 360,
+      "name": "Alice Updated",
+      "phoneNumber": "+1-555-0199",
+      "email": "alice_p15gz@campus.edu"
+    }
+  },
+  {
+    "category": "Profile",
+    "testName": "Change Password Verified",
+    "status": "PASS",
+    "details": {
+      "oldPassRejected": 400,
+      "newPassAccepted": 200
+    }
+  },
+  {
+    "category": "Lost Item",
+    "testName": "Create LOST Item Report",
+    "status": "PASS",
+    "details": {
+      "id": 13,
+      "title": "Lost Blue Backpack p15gz",
+      "status": "LOST"
+    }
+  },
+  {
+    "category": "Lost Item",
+    "testName": "Item Appears in MyItems Feed",
+    "status": "PASS",
+    "details": {
+      "count": 1
+    }
+  },
+  {
+    "category": "Lost Item",
+    "testName": "Edit Item as Owner",
+    "status": "PASS",
+    "details": {
+      "title": "Lost Blue Backpack (Updated) p15gz"
+    }
+  },
+  {
+    "category": "Lost Item",
+    "testName": "Non-Owner Forbidden from Editing Item",
+    "status": "PASS",
+    "details": {
+      "status": 403
+    }
+  },
+  {
+    "category": "Found Item",
+    "testName": "Create FOUND Item Report (User B)",
+    "status": "PASS",
+    "details": {
+      "id": 14,
+      "title": "Found Graphing Calculator p15gz",
+      "status": "FOUND"
+    }
+  },
+  {
+    "category": "Found Item",
+    "testName": "Found Item Appears in Public Feed",
+    "status": "PASS",
+    "details": {
+      "id": 14
+    }
+  },
+  {
+    "category": "Search",
+    "testName": "Filter by Keyword (\"Calculator\")",
+    "status": "PASS",
+    "details": {
+      "found": true,
+      "count": 3
+    }
+  },
+  {
+    "category": "Search",
+    "testName": "Filter by Category (\"ELECTRONICS\")",
+    "status": "PASS",
+    "details": {
+      "found": true,
+      "count": 6
+    }
+  },
+  {
+    "category": "Search",
+    "testName": "Filter by Status (\"FOUND\")",
+    "status": "PASS",
+    "details": {
+      "found": true,
+      "count": 5
+    }
+  },
+  {
+    "category": "Search",
+    "testName": "Combined Filter (Keyword + Category + Status)",
+    "status": "PASS",
+    "details": {
+      "found": true,
+      "count": 2
+    }
+  },
+  {
+    "category": "Search",
+    "testName": "Search Nonexistent Item (0 results)",
+    "status": "PASS",
+    "details": {
+      "count": 0
+    }
+  },
+  {
+    "category": "Item Details",
+    "testName": "Item Detail Retrieval & Sensitivity Check",
+    "status": "PASS",
+    "details": {
+      "title": "Found Graphing Calculator p15gz",
+      "category": "ELECTRONICS",
+      "status": "FOUND",
+      "verificationQuestion": "What initials are engraved on the back casing?"
+    }
+  },
+  {
+    "category": "Claims",
+    "testName": "Finder Prevented from Claiming Own Item",
+    "status": "PASS",
+    "details": {
+      "status": 400
+    }
+  },
+  {
+    "category": "Claims",
+    "testName": "User A Files Claim against User B Item",
+    "status": "PASS",
+    "details": {
+      "claimId": 5,
+      "status": "PENDING"
+    }
+  },
+  {
+    "category": "Claims",
+    "testName": "Duplicate Pending Claim Prevented",
+    "status": "PASS",
+    "details": {
+      "status": 400
+    }
+  },
+  {
+    "category": "Claims",
+    "testName": "Add Comment to Claim Thread",
+    "status": "PASS",
+    "details": {
+      "commentId": 1
+    }
+  },
+  {
+    "category": "Claims",
+    "testName": "Read Comments Thread",
+    "status": "PASS",
+    "details": {
+      "count": 1
+    }
+  },
+  {
+    "category": "Approval Path A",
+    "testName": "Student Approves Claim Status to APPROVED",
+    "status": "PASS",
+    "details": {
+      "status": "APPROVED"
+    }
+  },
+  {
+    "category": "Approval Path A",
+    "testName": "Item Transitions to CLAIMED Status",
+    "status": "PASS",
+    "details": {
+      "status": "CLAIMED"
+    }
+  },
+  {
+    "category": "Approval Path A",
+    "testName": "Handover PIN Generated and Visible to Claimant (6 digits)",
+    "status": "PASS",
+    "details": {
+      "pin": "363896"
+    }
+  },
+  {
+    "category": "Approval Path A",
+    "testName": "Unauthorized User C Cannot See Handover PIN",
+    "status": "PASS",
+    "details": {}
+  },
+  {
+    "category": "Approval Path A",
+    "testName": "PIN Persists Unchanged on Subsequent Fetches",
+    "status": "PASS",
+    "details": {
+      "original": "363896",
+      "reloaded": "363896"
+    }
+  },
+  {
+    "category": "Approval Path A",
+    "testName": "Incorrect Handover PIN is Rejected",
+    "status": "PASS",
+    "details": {
+      "status": 400,
+      "msg": "Invalid handover PIN. 4 attempts remaining before lockout."
+    }
+  },
+  {
+    "category": "Approval Path A",
+    "testName": "Unauthorized User Cannot Verify Handover PIN",
+    "status": "PASS",
+    "details": {
+      "status": 403
+    }
+  },
+  {
+    "category": "Approval Path A",
+    "testName": "Correct Handover PIN Accepted & Handover Verified",
+    "status": "PASS",
+    "details": {
+      "verified": true
+    }
+  },
+  {
+    "category": "Approval Path A",
+    "testName": "Item Status Updated to REUNITED Post-Handover",
+    "status": "PASS",
+    "details": {
+      "status": "REUNITED"
+    }
+  },
+  {
+    "category": "Approval Path A",
+    "testName": "REUNITED Item Cannot Be Claimed Again",
+    "status": "PASS",
+    "details": {
+      "status": 400
+    }
+  },
+  {
+    "category": "Approval Path B (Admin)",
+    "testName": "Admin Approves Claim (/api/admin/claims/{id}/approve)",
+    "status": "PASS",
+    "details": {
+      "status": 200
+    }
+  },
+  {
+    "category": "Approval Path B (Admin)",
+    "testName": "Item Transitions to CLAIMED Status upon Admin Approval",
+    "status": "PASS",
+    "details": {
+      "status": "CLAIMED"
+    }
+  },
+  {
+    "category": "Approval Path B (Admin)",
+    "testName": "BUG #1 FIXED: Admin Approval Generates 6-Digit Handover PIN",
+    "status": "PASS",
+    "details": {
+      "claimId": 6,
+      "status": "APPROVED",
+      "handoverPin": "074386"
+    }
+  },
+  {
+    "category": "Approval Path B (Admin)",
+    "testName": "PIN Idempotency: Repeated Admin Approval Preserves Exact Same PIN",
+    "status": "PASS",
+    "details": {
+      "originalPin": "074386",
+      "afterReapprovalPin": "074386"
+    }
+  },
+  {
+    "category": "Approval Path B (Admin)",
+    "testName": "Unauthorized Student Forbidden from Reading Admin-Approved Claim (403)",
+    "status": "PASS",
+    "details": {
+      "status": 403
+    }
+  },
+  {
+    "category": "Approval Path B (Admin)",
+    "testName": "Handover Verification Rejects Incorrect PIN",
+    "status": "PASS",
+    "details": {
+      "status": 400
+    }
+  },
+  {
+    "category": "Approval Path B (Admin)",
+    "testName": "Handover Verification Accepts Admin-Generated PIN",
+    "status": "PASS",
+    "details": {
+      "status": 200,
+      "verified": true
+    }
+  },
+  {
+    "category": "Approval Path B (Admin)",
+    "testName": "Item Transitions to REUNITED Following Admin Handover Verification",
+    "status": "PASS",
+    "details": {
+      "status": "REUNITED"
+    }
+  },
+  {
+    "category": "Messaging",
+    "testName": "Send 1-on-1 Message Between Claimant and Finder",
+    "status": "PASS",
+    "details": {
+      "id": 1,
+      "content": "Hello, can we meet at the campus security desk?"
+    }
+  },
+  {
+    "category": "Messaging",
+    "testName": "Empty Message Content Rejection",
+    "status": "PASS",
+    "details": {
+      "status": 500
+    }
+  },
+  {
+    "category": "Messaging",
+    "testName": "Retrieve Scoped Conversation Thread",
+    "status": "PASS",
+    "details": {
+      "count": 1
+    }
+  },
+  {
+    "category": "Messaging",
+    "testName": "Recipient Inbox Retrieval",
+    "status": "PASS",
+    "details": {
+      "unreadCount": 1
+    }
+  },
+  {
+    "category": "Messaging",
+    "testName": "Intruder Forbidden from Reading Another User Inbox",
+    "status": "PASS",
+    "details": {
+      "status": 403
+    }
+  },
+  {
+    "category": "Notifications",
+    "testName": "User A Received Notifications",
+    "status": "PASS",
+    "details": {
+      "count": 3,
+      "latest": "New ownership claim submitted for 'Found Keychain with 3 Keys p15gz'."
+    }
+  },
+  {
+    "category": "Notifications",
+    "testName": "Mark Single Notification as Read",
+    "status": "PASS",
+    "details": {
+      "status": 200
+    }
+  },
+  {
+    "category": "Notifications",
+    "testName": "Mark All Notifications as Read",
+    "status": "PASS",
+    "details": {
+      "status": 200
+    }
+  },
+  {
+    "category": "Admin",
+    "testName": "Get Dashboard Statistics",
+    "status": "PASS",
+    "details": {
+      "totalItems": 15,
+      "lostItems": 5,
+      "foundItems": 10,
+      "claimedItems": 2,
+      "totalClaims": 6,
+      "pendingClaims": 0,
+      "approvedClaims": 6,
+      "totalUsers": 81
+    }
+  },
+  {
+    "category": "Admin",
+    "testName": "List All Items for Admin Audit",
+    "status": "PASS",
+    "details": {
+      "count": 15
+    }
+  },
+  {
+    "category": "Admin",
+    "testName": "List All Claims for Admin Audit",
+    "status": "PASS",
+    "details": {
+      "count": 6
+    }
+  },
+  {
+    "category": "Admin",
+    "testName": "List All Users for Admin Management",
+    "status": "PASS",
+    "details": {
+      "count": 81
+    }
+  },
+  {
+    "category": "Admin",
+    "testName": "Export Claims Audit Report as CSV",
+    "status": "PASS",
+    "details": {
+      "csvLength": 1039
+    }
+  },
+  {
+    "category": "Image Upload",
+    "testName": "Upload Valid PNG Image File",
+    "status": "PASS",
+    "details": {
+      "imageUrl": "/uploads/e288da51-09dc-4e79-b8d0-e5f2ac25edf7.png"
+    }
+  },
+  {
+    "category": "Image Upload",
+    "testName": "Static Asset Handler Serves Uploaded Image with Correct MIME Type",
+    "status": "PASS",
+    "details": {
+      "status": 200,
+      "contentType": "image/png"
+    }
+  },
+  {
+    "category": "Security",
+    "testName": "BUG #3 FIXED: IDOR Blocked - Non-Party Forbidden from Reading Claim (403)",
+    "status": "PASS",
+    "details": {
+      "status": 403,
+      "message": "You are not authorized to view or access this claim."
+    }
+  },
+  {
+    "category": "Security",
+    "testName": "Claimant & Finder Maintain Authorized Access to Claim",
+    "status": "PASS",
+    "details": {
+      "claimantStatus": 200,
+      "finderStatus": 200
+    }
+  },
+  {
+    "category": "Security",
+    "testName": "BUG #4 FIXED: Thread Authorization - Non-Participant Forbidden from Reading Messages (403)",
+    "status": "PASS",
+    "details": {
+      "status": 403,
+      "message": "You are not authorized to view messages for this item."
+    }
+  },
+  {
+    "category": "Security",
+    "testName": "BUG #2 FIXED: Unauthorized Action Returns Clean HTTP 403 (Not 500)",
+    "status": "PASS",
+    "details": {
+      "status": 403
+    }
+  },
+  {
+    "category": "Security",
+    "testName": "Student Forbidden from Deleting Users via /api/admin/users/{id}",
+    "status": "PASS",
+    "details": {
+      "status": 403
+    }
+  }
+]

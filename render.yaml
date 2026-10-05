@@ -1,0 +1,38 @@
+# ==============================================================================
+# Render Blueprint Specification for LostLink Backend
+# ==============================================================================
+services:
+  - type: web
+    name: lostlink-backend
+    env: docker
+    dockerfilePath: ./Dockerfile
+    plan: free
+    region: oregon
+    envVars:
+      - key: PORT
+        value: 8081
+      - key: SPRING_PROFILES_ACTIVE
+        value: prod
+      # Supabase PostgreSQL Connection URL (e.g. jdbc:postgresql://db.xxx.supabase.co:5432/postgres)
+      - key: SPRING_DATASOURCE_URL
+        sync: false
+      - key: SPRING_DATASOURCE_USERNAME
+        sync: false
+      - key: SPRING_DATASOURCE_PASSWORD
+        sync: false
+      # Production JWT Secret (Min 32 characters, auto-generated or custom)
+      - key: JWT_SECRET
+        generateValue: true
+      # Vercel Frontend Origin (e.g. https://lostlink.vercel.app)
+      - key: FRONTEND_URL
+        sync: false
+      # Storage Provider: cloudinary
+      - key: STORAGE_PROVIDER
+        value: cloudinary
+      # Cloudinary API Credentials
+      - key: CLOUDINARY_CLOUD_NAME
+        sync: false
+      - key: CLOUDINARY_API_KEY
+        sync: false
+      - key: CLOUDINARY_API_SECRET
+        sync: false

@@ -1,0 +1,75 @@
+# Dependencies
+node_modules/
+**/node_modules/
+.pnp
+.pnp.js
+
+# Build Artifacts
+target/
+**/target/
+dist/
+**/dist/
+dist-ssr/
+build/
+**/build/
+*.class
+
+# IDE & Editor Configuration
+.idea/
+**/.idea/
+.vscode/*
+!.vscode/extensions.json
+*.iml
+*.iws
+*.ipr
+.classpath
+.project
+.settings/
+.factorypath
+.apt_generated
+
+# Runtime Uploads & Media (Preserve sample demo items for reference)
+!lostfound/uploads/**
+!uploads/**
+
+# Environment & Secrets (NEVER COMMIT)
+.env
+.env.local
+.env.*.local
+*.local
+application-local.properties
+application-secret.properties
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# OS System Files
+.DS_Store
+Thumbs.db
+*.tmp
+*.bak
+
+# Python Cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Generated Documents & Reports
+*.pdf
+*.html
+
+# Embedded Databases (Do NOT commit local H2 database files in public repo)
+*.trace.db
+*.mv.db
+data/
+lostfound/data/
+
+# Archives & Packages
+*.zip
+*.tar.gz

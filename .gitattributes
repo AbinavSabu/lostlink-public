@@ -1,0 +1,8 @@
+# Enforce Unix LF line endings for shell scripts and Unix wrapper
+*.sh text eol=lf
+lostfound/mvnw text eol=lf
+
+# Enforce Windows CRLF line endings for batch files and cmd wrapper
+*.bat text eol=crlf
+*.cmd text eol=crlf
+lostfound/mvnw.cmd text eol=crlf

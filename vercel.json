@@ -1,0 +1,10 @@
+{
+  "buildCommand": "cd lostfound-frontend && npm run build",
+  "outputDirectory": "lostfound-frontend/dist",
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}
