@@ -782,4 +782,39 @@ public class LostFoundSmokeE2ETest {
 
         log.info("[PASS REGRESSION 5] Externalized JWT signing and validation verified successfully");
     }
+
+    @Test
+    @Order(22)
+    void test22_CorsVercelWildcardAndPreviewDeployment() throws Exception {
+        log.info("[REGRESSION TEST 6] Verifying CORS support for Vercel preview URLs and wildcards");
+
+        String previewOrigin = "https://lostlink-public-frontend-3znt-hy9askt3p-abinav9.vercel.app";
+
+        mockMvc.perform(options("/api/items")
+                        .header("Origin", previewOrigin)
+                        .header("Access-Control-Request-Method", "GET"))
+                .andExpect(status().isOk())
+                .andExpect(header().string("Access-Control-Allow-Origin", previewOrigin))
+                .andExpect(header().string("Access-Control-Allow-Credentials", "true"));
+
+        String productionOrigin = "https://lostlink-public-frontend-3znt.vercel.app";
+
+        mockMvc.perform(options("/api/items")
+                        .header("Origin", productionOrigin)
+                        .header("Access-Control-Request-Method", "GET"))
+                .andExpect(status().isOk())
+                .andExpect(header().string("Access-Control-Allow-Origin", productionOrigin))
+                .andExpect(header().string("Access-Control-Allow-Credentials", "true"));
+
+        String localOrigin = "http://localhost:5173";
+
+        mockMvc.perform(options("/api/items")
+                        .header("Origin", localOrigin)
+                        .header("Access-Control-Request-Method", "GET"))
+                .andExpect(status().isOk())
+                .andExpect(header().string("Access-Control-Allow-Origin", localOrigin))
+                .andExpect(header().string("Access-Control-Allow-Credentials", "true"));
+
+        log.info("[PASS REGRESSION 6] CORS allows localhost, production Vercel, and dynamic Vercel preview deployments");
+    }
 }

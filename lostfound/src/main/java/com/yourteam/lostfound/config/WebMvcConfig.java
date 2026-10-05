@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -13,6 +14,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * WebMvcConfig manages static resource handlers and upload directory initialization.
@@ -106,5 +110,33 @@ public class WebMvcConfig implements WebMvcConfigurer {
         log.info("Registering local static resource handler for /uploads/** -> {}", location);
         registry.addResourceHandler("/uploads/**")
                 .addResourceLocations(location);
+    }
+
+    @Value("${app.cors.allowed-origins:${FRONTEND_URL:}}")
+    private String allowedCorsOrigins;
+
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        List<String> origins = new ArrayList<>(List.of(
+                "http://localhost:*",
+                "http://127.0.0.1:*",
+                "https://lostlink-public-frontend-3znt.vercel.app",
+                "https://*.vercel.app"
+        ));
+
+        if (allowedCorsOrigins != null && !allowedCorsOrigins.isBlank()) {
+            Arrays.stream(allowedCorsOrigins.split(","))
+                    .map(String::trim)
+                    .filter(s -> !s.isEmpty())
+                    .forEach(origins::add);
+        }
+
+        registry.addMapping("/**")
+                .allowedOriginPatterns(origins.toArray(new String[0]))
+                .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
+                .allowedHeaders("*")
+                .exposedHeaders("Authorization")
+                .allowCredentials(true)
+                .maxAge(3600);
     }
 }

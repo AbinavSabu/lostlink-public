@@ -29,12 +29,10 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         List<String> origins = new ArrayList<>(List.of(
-                "http://localhost:5173",
-                "http://127.0.0.1:5173",
-                "http://localhost:3000",
-                "http://localhost:4200",
                 "http://localhost:*",
-                "http://127.0.0.1:*"
+                "http://127.0.0.1:*",
+                "https://lostlink-public-frontend-3znt.vercel.app",
+                "https://*.vercel.app"
         ));
 
         if (allowedOrigins != null && !allowedOrigins.isBlank()) {
