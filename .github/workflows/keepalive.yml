@@ -1,0 +1,24 @@
+name: Render Backend Keepalive
+
+on:
+  schedule:
+    # Ping every 10 minutes to prevent Render free-tier idle spin-down
+    - cron: '*/10 * * * *'
+  workflow_dispatch:
+
+concurrency:
+  group: keepalive-render
+  cancel-in-progress: true
+
+jobs:
+  ping-backend:
+    name: Ping Render Backend
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Ping public items endpoint
+        run: |
+          echo "Pinging Render backend at $(date -u)..."
+          curl -s -f --max-time 30 "https://lostlink-public.onrender.com/api/items?page=0&size=1" > /dev/null || echo "Keepalive ping completed with fallback"
+          echo "Keepalive check finished."
