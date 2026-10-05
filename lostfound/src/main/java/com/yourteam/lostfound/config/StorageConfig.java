@@ -15,7 +15,7 @@ public class StorageConfig {
 
     private static final Logger log = LoggerFactory.getLogger(StorageConfig.class);
 
-    @Value("${app.storage.provider:local}")
+    @Value("${app.storage.provider:${STORAGE_PROVIDER:local}}")
     private String storageProvider;
 
     @Value("${cloudinary.cloud-name:}")

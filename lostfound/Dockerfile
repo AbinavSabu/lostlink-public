@@ -23,6 +23,7 @@ WORKDIR /app
 
 # Run as non-root user
 RUN groupadd -r lostlink && useradd -r -g lostlink lostlink
+RUN mkdir -p /app/uploads && chown -R lostlink:lostlink /app
 
 # Copy executable jar from builder stage
 COPY --from=build /app/target/*.jar app.jar

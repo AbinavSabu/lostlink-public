@@ -22,6 +22,7 @@ FROM eclipse-temurin:17-jre-jammy
 WORKDIR /app
 
 RUN groupadd -r lostlink && useradd -r -g lostlink lostlink
+RUN mkdir -p /app/uploads && chown -R lostlink:lostlink /app
 
 COPY --from=build /app/target/*.jar app.jar
 
