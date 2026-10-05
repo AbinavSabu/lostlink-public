@@ -34,11 +34,14 @@ public interface ClaimRepository extends JpaRepository<Claim, Long> {
             @Param("claimId") Long claimId
     );
 
-    @Query("SELECT c FROM Claim c WHERE c.item.user.id = :userId ORDER BY c.createdAt DESC")
+    @Query("SELECT c FROM Claim c JOIN FETCH c.item JOIN FETCH c.claimant WHERE c.item.user.id = :userId ORDER BY c.createdAt DESC")
     List<Claim> findByItemUserIdOrderByCreatedAtDesc(@Param("userId") Long userId);
 
     @Query("SELECT DISTINCT c FROM Claim c LEFT JOIN FETCH c.item LEFT JOIN FETCH c.claimant ORDER BY c.createdAt DESC")
     List<Claim> findAllWithDetails();
+
+    @Query("SELECT c FROM Claim c JOIN FETCH c.item JOIN FETCH c.claimant WHERE c.claimant.id = :userId ORDER BY c.createdAt DESC")
+    List<Claim> findClaimsByUserIdWithDetails(@Param("userId") Long userId);
 
     @Query("SELECT COUNT(c) FROM Claim c WHERE UPPER(c.status) = UPPER(:status)")
     long countByStatusIgnoreCase(@Param("status") String status);

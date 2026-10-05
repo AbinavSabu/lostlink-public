@@ -169,9 +169,8 @@ public class ClaimServiceImpl implements ClaimService {
             throw new UnauthorizedException("You are not authorized to view claims for this user.");
         }
 
-        return claimRepository.findAll()
+        return claimRepository.findClaimsByUserIdWithDetails(claimantId)
                 .stream()
-                .filter(claim -> claim.getClaimant() != null && claim.getClaimant().getId().equals(claimantId))
                 .map(this::mapToDTO)
                 .collect(Collectors.toList());
     }
@@ -179,9 +178,8 @@ public class ClaimServiceImpl implements ClaimService {
     @Override
     public List<ClaimResponseDTO> getMyClaims() {
         User currentUser = userService.getCurrentAuthenticatedUser();
-        return claimRepository.findAll()
+        return claimRepository.findClaimsByUserIdWithDetails(currentUser.getId())
                 .stream()
-                .filter(claim -> claim.getClaimant() != null && claim.getClaimant().getId().equals(currentUser.getId()))
                 .map(this::mapToDTO)
                 .collect(Collectors.toList());
     }
